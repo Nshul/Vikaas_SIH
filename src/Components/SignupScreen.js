@@ -97,21 +97,23 @@ export default class SignUpView extends Component {
         // console.log(`Received axios response ${JSON.stringify(res)}`);
         if (res.data === 'user already exists') {
           Alert.alert('User Already Exists');
-          this.setState({
-            name: '',
-            phone: '',
-            address: '',
-            state: '',
-            city: '',
-            constituency: '',
-          });
+          this.props.navigation.dispatch(
+            StackActions.reset({
+              index: 0,
+              key: null,
+              actions: [
+                NavigationActions.navigate({ routeName: 'UserLoginScreen' }),
+              ],
+            })
+          );
         } else {
           Alert.alert('User Created. Please Login To Continue');
           this.props.navigation.dispatch(
             StackActions.reset({
               index: 0,
+              key:null,
               actions: [
-                NavigationActions.navigate({ routeName: 'LoginScreen' }),
+                NavigationActions.navigate({ routeName: 'UserLoginScreen' }),
               ],
             })
           );

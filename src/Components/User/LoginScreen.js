@@ -1,44 +1,3 @@
-/*import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input } from 'react-native-elements';
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
-
-import { Header } from 'react-native-elements';
-
-export default class LoginScreen extends Component {
-  static navigationOptions = {
-    header: null,
-  };
-
-  render() {
-    return (
-      <View>
-        <Header
-          centerComponent={{ text: 'Login Page', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'home', color: '#fff' }}
-        />
-        <Input placeholder="Enter Phone Number" />
-
-        <Input placeholder="Enter OTP" />
-
-        <Button title="Submit" />
-      </View>
-    );
-  }
-}
-
-/*
-    render() {
-      return (
-        <View>
-          <Input placeholder="Phone Number" />
-        </View>
-      );
-    }
-}
-*/
-
 import { Header } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React, { Component } from 'react';
@@ -52,65 +11,9 @@ import {
   Image,
   Alert,
 } from 'react-native';
-
-export default class SignUpView extends Component {
-  constructor(props) {
-    super(props);
-    state = {
-      phonenumber: '',
-      otp: '',
-    };
-  }
-
-  onClickListener = viewId => {
-    Alert.alert('Alert', 'Button pressed ' + viewId);
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-      <Text style={styles.headingText}>LOGIN</Text>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{ uri: 'https://png.icons8.com/phone' }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Phone Number"
-            keyboardType="phone-pad"
-            underlineColorAndroid="transparent"
-            onChangeText={phoneNumber => this.setState({ phoneNumber })}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db',
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="OTP"
-            secureTextEntry={true}
-            keyboardType="phone-pad"
-            underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({ password })}
-          />
-        </View>
-
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.signupButton]}
-          onPress={() => this.onClickListener('sign_up')}
-        >
-          <Text style={styles.signUpText}>Sign up</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
+import axios from 'axios';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { getOTP, verifyUserOTP } from '../../config.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -128,6 +31,10 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  outputContainer: {
+    flexDirection: 'column',
     alignItems: 'center',
   },
   inputs: {
@@ -162,4 +69,116 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
+export default class SignUpView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      otpRequested: false,
+      phonenumber: null,
+      otp: null,
+    };
+  }
 
+  verifyOTP = () => {
+    axios
+      .post(verifyUserOTP, {
+        phone: this.state.phoneNumber,
+        otp: this.state.otp,
+      })
+      .then(res => {
+        console.log(res);
+        const { data } = res;
+        if (data.success === false) {
+          Alert.alert(data.message);
+          return;
+        }
+
+        Alert.alert('User Logged In');
+        this.props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({
+                routeName: 'UserHome',
+                params: { user: data[0] },
+              }),
+            ],
+          })
+        );
+      });
+  };
+
+  requestOTP = () => {
+    axios.post(getOTP, { phone: this.state.phoneNumber }).then(res => {
+      if (res.data === 'success') {
+        this.setState({ otpRequested: true });
+        return;
+      }
+      Alert.alert(res.data);
+    });
+  };
+
+  renderOtp = () => {
+    if (this.state.otpRequested) {
+      return (
+        <View style={styles.outputContainer}>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{
+                uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db',
+              }}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="OTP"
+              secureTextEntry
+              keyboardType="phone-pad"
+              underlineColorAndroid="transparent"
+              onChangeText={otp => this.setState({ otp })}
+            />
+          </View>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.signupButton]}
+            onPress={() => this.verifyOTP()}
+          >
+            <Text style={styles.signUpText}>Login In</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    }
+    return (
+      <TouchableHighlight
+        style={[styles.buttonContainer, styles.signupButton]}
+        onPress={() => this.requestOTP()}
+      >
+        <Text style={styles.signUpText}>Generate OTP</Text>
+      </TouchableHighlight>
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.headingText}>LOGIN</Text>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={{ uri: 'https://png.icons8.com/phone' }}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Phone Number"
+            keyboardType="phone-pad"
+            underlineColorAndroid="transparent"
+            onChangeText={phoneNumber => {
+              console.log(`State now ${JSON.stringify(this.state)}`);
+              this.setState({ phoneNumber });
+            }}
+          />
+        </View>
+        {this.renderOtp()}
+      </View>
+    );
+  }
+}

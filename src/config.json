@@ -1,5 +1,8 @@
 {
   "MPProblemFeed": "http://192.168.20.172:8000/complaints",
   "UserProblemFeed": "http://192.168.20.172:8000/complaints",
-  "submitForm": "http://192.168.20.172:8000/adduser"
+  "submitForm": "http://192.168.20.172:8000/adduser",
+  "getOTP": "http://192.168.20.172:8000/requestotp",
+  "verifyUserOTP": "http://192.168.20.172:8000/user/verifyotp",
+  "verifyMPOTP": "http://192.168.20.172:8000/mp/verifyotp"
 }

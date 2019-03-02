@@ -4,5 +4,8 @@
   },
   "homescreen": {
     "test": "Home Screen"
+  },
+  "loginscreen": {
+    "test": "Login Screen"
   }
 }

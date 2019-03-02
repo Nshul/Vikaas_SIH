@@ -33,10 +33,12 @@ export default class EntryScreen extends Component {
         <Button
           title="User Home"
           onPress={() => this.props.navigation.navigate('UserHome')}
+        />
+        <Button
           title="Login as user"
           onPress={() => this.props.navigation.navigate('LoginScreen')}
         />
-         <Button
+        <Button
           title="Roadmap"
           onPress={() => this.props.navigation.navigate('Roadmap')}
         />

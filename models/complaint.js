@@ -5,17 +5,34 @@ var ComplaintSchema = new mongoose.Schema({
 	upvotes: Number,
 	downvotes: Number,
 	description: String,
-	tags: {
-		type: Array,
-		default: [ 'lol', 'xD' ]
-	},
-	comments: {
-		type: Array,
-		default: [ 'lol', 'xD' ]
-	},
+	tags: [
+		{
+			type: String
+		}
+	],
+	comments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment'
+		}
+	],
 	status: {
 		type: String,
-		default: 'lol'
+		default: 'new'
+	},
+	upvoters: [
+		{
+			type: String
+		}
+	],
+	downvoters: [
+		{
+			type: String
+		}
+	],
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
 	}
 });
 

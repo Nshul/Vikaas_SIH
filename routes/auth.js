@@ -1,26 +1,62 @@
 const express = require('express'),
 	authy = require('authy')('IHaWlw6tuCPP0zEYCSGXGmDYJ8MGGxmY'),
+	User = require('../models/user'),
+	Mp = require('../models/mp'),
 	router = express.Router({ mergeParams: true });
 
-router.get('/sendotp', (req, response) => {
-	authy.phones().verification_start('8527370012', '91', 'sms', function(err, res) {
+router.post('/requestotp', (req, response) => {
+	console.log(req.body);
+
+	authy.phones().verification_start(req.body.phone, '91', 'sms', function(err, res) {
 		if (err) {
-			response.send(err);
+			console.log(err);
+			return response.send(err);
 		}
 
-		response.render('otp');
+		// response.render('otp');
+		return response.send('success');
 	});
 });
 
-router.post('/verifyotp', (req, response) => {
-	authy.phones().verification_check('8527370012', '91', req.body.otp, function(err, res) {
+router.post('/user/verifyotp', (req, response) => {
+	authy.phones().verification_check(req.body.phone, '91', req.body.otp, function(err, res) {
+		if (err) {
+			// invalid token
+			console.log(err);
+			return response.send(err);
+		}
+
+		User.find({
+			phone: req.body.phone
+		})
+			.then((User) => {
+				return response.send(User);
+			})
+			.catch((err) => {
+				console.log(err);
+
+				return response.send(err);
+			});
+	});
+});
+
+router.post('/mp/verifyotp', (req, response) => {
+	authy.phones().verification_check(req.body.phone, '91', req.body.otp, function(err, res) {
 		if (err) {
 			// invalid token
 			response.send(err);
 			err;
 		}
 
-		response.send('Success');
+		User.find({
+			phone: req.body.phone
+		})
+			.then((User) => {
+				return response.send(User);
+			})
+			.catch((err) => {
+				return response.send(err);
+			});
 	});
 });
 

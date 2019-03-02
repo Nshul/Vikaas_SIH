@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
 	activities: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Actiivity'
+			ref: 'Activity'
 		}
 	]
 });

@@ -3,7 +3,9 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import EntryScreen from './EntryScreen';
 import HomeScreen from './HomeScreen';
 import UserHome from './User/Home';
-import LoginScreen from './LoginScreen';
+import UserLoginScreen from './User/LoginScreen';
+import MPLoginScreen from './MP/LoginScreen';
+import MPHome from './MP/Home';
 import Roadmap from './Roadmap';
 import submitProb from './submitProb';
 import SignupScreen from './SignupScreen';
@@ -13,7 +15,9 @@ const AppNavigator = createStackNavigator({
   EntryScreen: { screen: EntryScreen },
   HomeScreen: { screen: HomeScreen },
   UserHome: { screen: UserHome },
-  LoginScreen: { screen: LoginScreen },
+  UserLoginScreen: { screen: UserLoginScreen },
+  MPHome: {screen: MPHome},
+  MPLoginScreen: { screen: MPLoginScreen },
   Roadmap: { screen: Roadmap },
   submitProb: { screen: submitProb },
   SignupScreen: { screen: SignupScreen },

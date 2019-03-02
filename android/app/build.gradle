@@ -131,9 +131,16 @@ android {
             }
         }
     }
+
+    configurations.all {
+    resolutionStrategy {
+        force "com.airbnb.android:lottie:2.5.5"
+      }
+    }
 }
 
 dependencies {
+    implementation project(':lottie-react-native')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-vector-icons')

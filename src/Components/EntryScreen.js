@@ -9,8 +9,8 @@ import {
   TouchableHighlight,
   Image,
   Alert,
-  ImageBackground,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 import stringsLang from '../Languages/index';
 
 export default class EntryScreen extends Component {
@@ -31,47 +31,46 @@ export default class EntryScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <LottieView
+          source={require('../../media/4126-indian-neighborhood.json')}
+          autoPlay
+          loop
+          style={{ height: 300, width: 300 }}
+        />
         <Text>Current Language:</Text>
         <Text>{this.state.currLang}</Text>
         <Text>{stringsLang.entryscreen.test}</Text>
         <Button title="Hindi" onPress={() => this.settextLang('hi')} />
         <Button title="English" onPress={() => this.settextLang('en')} />
-        <ImageBackground
-          source={{
-            uri:
-              'https://media.tenor.com/images/a3b1633cec22aac827829421c7565174/tenor.gif/image.gif',
-          }}
-          style={{ width: '100%', height: '100%' }}
-        >
-          <Button
-            title="Signup as user"
-            onPress={() => this.props.navigation.navigate('SignupScreen')}
-          />
-          <Button
-            title="Signup as an MP"
-            onPress={() => this.props.navigation.navigate('MPSignupScreen')}
-          />
-          <Button
-            title="Login"
-            onPress={() => this.props.navigation.navigate('LoginScreen')}
-          />
-          <Button
-            title="User Home"
-            onPress={() => this.props.navigation.navigate('UserHome')}
-          />
-          <Button
-            title="Login as user"
-            onPress={() => this.props.navigation.navigate('LoginScreen')}
-          />
-          <Button
-            title="Roadmap"
-            onPress={() => this.props.navigation.navigate('Roadmap')}
-          />
-          <Button
-            title="submit problem"
-            onPress={() => this.props.navigation.navigate('submitProb')}
-          />
-        </ImageBackground>
+
+        <Button
+          title="Signup as user"
+          onPress={() => this.props.navigation.navigate('SignupScreen')}
+        />
+        <Button
+          title="Signup as an MP"
+          onPress={() => this.props.navigation.navigate('MPSignupScreen')}
+        />
+        <Button
+          title="Login"
+          onPress={() => this.props.navigation.navigate('LoginScreen')}
+        />
+        <Button
+          title="User Home"
+          onPress={() => this.props.navigation.navigate('UserHome')}
+        />
+        <Button
+          title="Login as user"
+          onPress={() => this.props.navigation.navigate('LoginScreen')}
+        />
+        <Button
+          title="Roadmap"
+          onPress={() => this.props.navigation.navigate('Roadmap')}
+        />
+        <Button
+          title="submit problem"
+          onPress={() => this.props.navigation.navigate('submitProb')}
+        />
       </View>
     );
   }

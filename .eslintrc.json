@@ -11,7 +11,8 @@
       {
         "extensions": [".js", ".jsx"]
       }
-    ]
+    ],
+    "arrow-parens": ["error", "as-needed"]
   },
   "parser": "babel-eslint",
   "plugins": ["react", "jsx-a11y", "import"]

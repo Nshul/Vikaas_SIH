@@ -42,7 +42,6 @@ export default class EntryScreen extends Component {
         <Text>{stringsLang.entryscreen.test}</Text>
         <Button title="Hindi" onPress={() => this.settextLang('hi')} />
         <Button title="English" onPress={() => this.settextLang('en')} />
-
         <Button
           title="Signup as user"
           onPress={() => this.props.navigation.navigate('SignupScreen')}
@@ -52,16 +51,20 @@ export default class EntryScreen extends Component {
           onPress={() => this.props.navigation.navigate('MPSignupScreen')}
         />
         <Button
-          title="Login"
-          onPress={() => this.props.navigation.navigate('LoginScreen')}
+          title="Login as user"
+          onPress={() => this.props.navigation.navigate('UserLoginScreen')}
+        />
+        <Button
+          title="Login as an MP"
+          onPress={() => this.props.navigation.navigate('MPLoginScreen')}
         />
         <Button
           title="User Home"
           onPress={() => this.props.navigation.navigate('UserHome')}
         />
         <Button
-          title="Login as user"
-          onPress={() => this.props.navigation.navigate('LoginScreen')}
+          title="MP Home"
+          onPress={() => this.props.navigation.navigate('MPHome')}
         />
         <Button
           title="Roadmap"

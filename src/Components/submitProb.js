@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import ImagePicker from 'react-native-image-picker';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  Alert,
-} from 'react-native';
-
-
-
+import { StyleSheet, Text, View, TextInput, Image, Alert } from 'react-native';
 // More info on all the options is below in the API Reference... just some common use cases shown here
 const options = {
   title: 'Select Avatar',
@@ -25,7 +15,7 @@ export default class GeolocationExample extends Component {
     super(props);
 
     this.state = {
-      name: '', 
+      name: '',
       description: '',
       latitude: null,
       longitude: null,
@@ -48,7 +38,7 @@ export default class GeolocationExample extends Component {
   }
 
   render() {
-    ImagePicker.launchCamera(options, (response) => {
+    ImagePicker.launchCamera(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -57,10 +47,10 @@ export default class GeolocationExample extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = { uri: response.uri };
-    
+
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-    
+
         this.setState({
           avatarSource: source,
         });
@@ -154,4 +144,3 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
-

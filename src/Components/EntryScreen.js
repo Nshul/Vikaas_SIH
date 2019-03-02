@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
-
-import stringsLang from '../Languages/index';
+import { Button } from 'react-native-elements';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Picker,
+  TouchableHighlight,
+  Image,
+  Alert,
+  ImageBackground,
+} from 'react-native';
+//import stringsLang from '../Languages/index';
 
 export default class EntryScreen extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  constructor(props) {
+  /*constructor(props) {
     super(props);
     this.state = { currLang: 'en' };
   }
@@ -17,20 +27,95 @@ export default class EntryScreen extends Component {
     stringsLang.setLanguage(value);
     this.setState({ currLang: value });
   }
-
+*/
   render() {
     return (
-      <View>
+      <View style={styles.container}>
+{/*         
         <Text>Current Language:</Text>
         <Text>{this.state.currLang}</Text>
         <Text>{stringsLang.entryscreen.test}</Text>
-        <Button title="Hindi" onPress={() => this.settextLang('hi')} />
-        <Button title="English" onPress={() => this.settextLang('en')} />
-        <Button
-          title="Login"
-          onPress={() => this.props.navigation.navigate('HomeScreen')}
+        <Button title="Hindi" onPress={() => this.settextLang('hi')} /> 
+        <Button title="English" onPress={() => this.settextLang('en')} />*/}
+         <ImageBackground source={{uri: 'https://media.tenor.com/images/a3b1633cec22aac827829421c7565174/tenor.gif/image.gif'}} style={{width: '100%', height: '100%'}}>
+       
+         <Button 
+          title="Signup as user"
+          onPress={() => this.props.navigation.navigate('SignupScreen')}
         />
-      </View>
+        <Button 
+          title="Signup as an MP"
+          onPress={() => this.props.navigation.navigate('MPSignupScreen')}
+        />
+        <Button 
+          title="Login"
+          onPress={() => this.props.navigation.navigate('LoginScreen')}
+        />
+    
+  </ImageBackground>
+          </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#00b5ec',
+  },
+  inputContainer: {
+      borderBottomColor: '#F5FCFF',
+      backgroundColor: '#FFFFFF',
+      borderRadius: 30,
+      borderBottomWidth: 1,
+      width: 250,
+      height: 45,
+      marginBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center'
+  },
+  dropdownContainer: {
+      borderBottomColor: '#F5FCFF',
+      backgroundColor: '#ffffff',
+      borderRadius: 30,
+      borderBottomWidth: 1,
+      width: 250,
+      height: 45,
+      marginBottom: 20,
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+  },
+  inputs: {
+      height: 45,
+      marginLeft: 16,
+      borderBottomColor: '#FFFFFF',
+      flex: 1,
+  },
+  inputIcon: {
+      width: 30,
+      height: 30,
+      marginLeft: 15,
+      justifyContent: 'center'
+  },
+  buttonContainer: {
+      height: 45,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 20,
+      width: 250,
+      borderRadius: 30,
+  },
+  signupButton: {
+      backgroundColor: "#FF4DFF",
+  },
+  signUpText: {
+      color: 'white',
+  },
+  headingText: {
+      color: "white",
+      fontSize: 30,
+  },
+});

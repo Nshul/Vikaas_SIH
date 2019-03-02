@@ -10,34 +10,32 @@ export default class Example extends Component {
 
     this.data = [
       {
-        time: '09:00',
-        title: 'Archery Training',
+        time: '20th January 2018',
+        title: 'Project Inaugration',
         description:
-          'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ',
+          'The Bill for the Road Development work is passed and the contactor is assigned',
         lineColor: '#009688',
       },
       {
-        time: '10:45',
-        title: 'Play Badminton',
+        time: '30th August 2018',
+        title: 'Major Laying Down Work Done',
         description:
-          'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.',
+          'The major work concerning the road was done with minor finishes left',
       },
       {
-        time: '12:00',
-        title: 'Lunch',
+        time: '30th November 2018',
+        title: 'Halt Due to Strike',
+        description:
+          'There were unavoidable circumstances owing to which strikes occured. The work was delayed',
       },
       {
-        time: '14:00',
-        title: 'Watch Soccer',
+        time: '1st January 2019',
+        title: 'The finishing work started',
         description:
-          'Team sport played between two teams of eleven players with a spherical ball. ',
+          'The finishing work started and the milestones were put. This marked the beginning of the end process.',
         lineColor: '#009688',
       },
-      {
-        time: '16:30',
-        title: 'Go to Fitness center',
-        description: 'Look out for the Best Gym & Fitness Centers around me :)',
-      },
+      
     ];
     this.state = { selected: null };
   }
@@ -49,10 +47,13 @@ export default class Example extends Component {
   renderSelected() {
     if (this.state.selected)
       return (
+        <View >
+        <Text style={{ fontSize: 25, color: 'black', flex: 1 }}>MileStones Achieved</Text>
         <Text style={{ marginTop: 10 }}>
           Selected event: {this.state.selected.title} at{' '}
           {this.state.selected.time}
         </Text>
+        </View>
       );
   }
 

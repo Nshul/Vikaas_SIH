@@ -75,6 +75,14 @@ export default class EntryScreen extends Component {
             title="submit problem"
             onPress={() => this.props.navigation.navigate('submitProb')}
           />
+           <Button
+            title="Done Problems"
+            onPress={() => this.props.navigation.navigate('MPDoneProblems')}
+          />
+           <Button
+            title="In Progress Problems"
+            onPress={() => this.props.navigation.navigate('MPInProgressProblems')}
+          />
         </ImageBackground>
       </View>
     );

@@ -10,18 +10,22 @@ import Roadmap from './Roadmap';
 import submitProb from './submitProb';
 import SignupScreen from './SignupScreen';
 import MPSignupScreen from './MPSignupScreen';
+import MPDoneProblems from './MP/DoneProblems';
+import MPInProgressProblems from './MP/InProgressProblems';
 
 const AppNavigator = createStackNavigator({
   EntryScreen: { screen: EntryScreen },
   HomeScreen: { screen: HomeScreen },
   UserHome: { screen: UserHome },
   UserLoginScreen: { screen: UserLoginScreen },
-  MPHome: {screen: MPHome},
+  MPHome: { screen: MPHome },
   MPLoginScreen: { screen: MPLoginScreen },
   Roadmap: { screen: Roadmap },
   submitProb: { screen: submitProb },
   SignupScreen: { screen: SignupScreen },
   MPSignupScreen: { screen: MPSignupScreen },
+  MPDoneProblems: { screen: MPDoneProblems },
+  MPInProgressProblems: { screen: MPInProgressProblems },
 });
 
 export default createAppContainer(AppNavigator);

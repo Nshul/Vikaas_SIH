@@ -1,4 +1,6 @@
 {
+  "InProgressProblemFeed": "http://192.168.20.172:8000/complaints",
+  "DoneProblemFeed": "http://192.168.20.172:8000/complaints",
   "MPProblemFeed": "http://192.168.20.172:8000/complaints",
   "UserProblemFeed": "http://192.168.20.172:8000/complaints",
   "submitForm": "http://192.168.20.172:8000/adduser"

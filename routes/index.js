@@ -10,50 +10,50 @@ router.get('/', (req, res) => {
 	return res.send('Hello');
 });
 
-router.get('/image', (req, res) => {
-	return res.render('image');
-});
+// router.get('/image', (req, res) => {
+// 	return res.render('image');
+// });
 
-router.post('/uploadpicture', upload.single('picture'), function(req, res) {
-	if (req.file == null) {
-		// If Submit was accidentally clicked with no file selected...
-		res.render('index', { title: 'Please select a picture file to submit!' });
-	} else {
-		var newImg = fs.readFileSync(req.file.path);
-		// encode the file as a base64 string.
-		var encImg = newImg.toString('base64');
-		// define your new document
-		var newItem = {
-			description: req.body.description,
-			contentType: req.file.mimetype,
-			size: req.file.size,
-			img: Buffer(encImg, 'base64')
-		};
+// router.post('/uploadpicture', upload.single('picture'), function(req, res) {
+// 	if (req.file == null) {
+// 		// If Submit was accidentally clicked with no file selected...
+// 		res.render('index', { title: 'Please select a picture file to submit!' });
+// 	} else {
+// 		var newImg = fs.readFileSync(req.file.path);
+// 		// encode the file as a base64 string.
+// 		var encImg = newImg.toString('base64');
+// 		// define your new document
+// 		var newItem = {
+// 			description: req.body.description,
+// 			contentType: req.file.mimetype,
+// 			size: req.file.size,
+// 			img: Buffer(encImg, 'base64')
+// 		};
 
-		console.log(newItem);
+// 		// console.log(newItem);
 
-		Image.create(newItem)
-			.then((err, image) => {
-				fs.remove(req.file.path, function(err) {
-					if (err) {
-						console.log(err);
-					}
-					res.send('Thanks for the Picture!');
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send(err);
-			});
-	}
-});
+// 		Image.create(newItem)
+// 			.then((err, image) => {
+// 				fs.remove(req.file.path, function(err) {
+// 					if (err) {
+// 						console.log(err);
+// 					}
+// 					res.send('Thanks for the Picture!');
+// 				});
+// 			})
+// 			.catch((err) => {
+// 				console.log(err);
+// 				res.send(err);
+// 			});
+// 	}
+// });
 
-router.get('/images', (req, res) => {
-	Complaint.findById('5c7b0570ea88e277188a8b39').then((complaint) => {
-		let img = complaint.image;
-		res.setHeader('content-type', 'image/jpeg');
-		res.send(img);
-	});
-});
+// router.get('/images', (req, res) => {
+// 	Complaint.findById('5c7b0570ea88e277188a8b39').then((complaint) => {
+// 		let img = complaint.image;
+// 		res.setHeader('content-type', 'image/jpeg');
+// 		res.send(img);
+// 	});
+// });
 
 module.exports = router;

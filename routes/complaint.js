@@ -27,7 +27,11 @@ router.get('/complaints', (req, res) => {
 		if (err) {
 			return res.send(err);
 		}
-		return res.send(complaints);
+		return res.send(
+			complaints.filter((complaint) => {
+				return complaint.constituency === req.body.constituency;
+			})
+		);
 	});
 });
 
@@ -57,7 +61,7 @@ router.post('/addcomplaint', (req, res) => {
 
 router.post('/newcomplaint', (req, res) => {
 	// console.log('req', req);
-	console.log(req.body.picture);
+	// console.log(req.body.picture);
 	// console.log(req.file);
 	// console.log(req.body.picture);
 
@@ -99,13 +103,13 @@ router.post('/newcomplaint', (req, res) => {
 });
 
 router.post('/upvote', (req, res) => {
-	console.log('yo');
-	console.log(req.body);
+	// console.log('yo');
+	// console.log(req.body);
 
 	Complaint.findById(req.body.complaintid)
 		.then((complaint) => {
 			if (complaint.upvoters.includes(req.body.user)) {
-				console.log('found');
+				// console.log('found');
 				let index = complaint.upvoters.indexOf(req.body.user);
 
 				complaint.upvoters.splice(index, 1);
@@ -134,13 +138,13 @@ router.post('/upvote', (req, res) => {
 });
 
 router.post('/downvote', (req, res) => {
-	console.log('yo');
-	console.log(req.body);
+	// console.log('yo');
+	// console.log(req.body);
 
 	Complaint.findById(req.body.complaintid)
 		.then((complaint) => {
 			if (complaint.downvoters.includes(req.body.user)) {
-				console.log('found');
+				// console.log('found');
 				let index = complaint.downvoters.indexOf(req.body.user);
 
 				complaint.downvotes -= 1;

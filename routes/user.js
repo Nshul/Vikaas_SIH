@@ -3,7 +3,7 @@ const express = require('express'),
 	router = express.Router({ mergeParams: true });
 
 router.post('/adduser', (req, res) => {
-	console.log('req', req.body);
+	// console.log('req', req.body);
 
 	User.find({
 		phone: req.body.phone
@@ -34,7 +34,7 @@ router.post('/adduser', (req, res) => {
 });
 
 router.get('/users', (req, res) => {
-	console.log(req.body);
+	// console.log(req.body);
 
 	User.find({})
 		.then((Users) => {

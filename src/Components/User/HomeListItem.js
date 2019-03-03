@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
   addComment: {
     height: 50,
   },
+  votingButtons: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
 });
 
 function getBase64(data) {
@@ -96,6 +100,7 @@ export default class HomeListItem extends Component {
     this.state = {
       expanded: false,
       addedComment: null,
+      refresh: false,
     };
   }
 
@@ -115,6 +120,7 @@ export default class HomeListItem extends Component {
       })
       .then(res => console.log(res))
       .catch(err => console.log(err));
+    this.setState({ refresh: !!!this.state.refresh });
   };
 
   downvoteComplaint = () => {
@@ -125,6 +131,7 @@ export default class HomeListItem extends Component {
       })
       .then(res => console.log(res))
       .catch(err => console.log(err));
+    this.setState({ refresh: !!!this.state.refresh });
   };
 
   addComment = () => {
@@ -134,6 +141,7 @@ export default class HomeListItem extends Component {
       complaintid: this.props.item._id,
       text: this.state.addedComment,
     });
+    this.setState({ addedComment: '' });
   };
 
   expandList = () => {
@@ -148,6 +156,7 @@ export default class HomeListItem extends Component {
       _id,
       image,
     } = this.props.item;
+    const { refresh, addedComment } = this.state;
     console.log(`Rec Image: ${image}`);
     const image64 = 'data:image/png;base64,' + image;
     return (
@@ -172,8 +181,16 @@ export default class HomeListItem extends Component {
           />
         </View>
         <View>
-          <Button title="Upvote" onPress={() => this.upvoteComplaint()} />
-          <Button title="Downvote" onPress={() => this.downvoteComplaint()} />
+          <Button
+            style={styles.votingButtons}
+            title="Upvote"
+            onPress={() => this.upvoteComplaint()}
+          />
+          <Button
+            style={styles.votingButtons}
+            title="Downvote"
+            onPress={() => this.downvoteComplaint()}
+          />
         </View>
         <Comments comments={comments} />
         <View style={styles.addComment}>

@@ -31,6 +31,7 @@ export default class EntryScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.mainTitle}>VIKAAS</Text>
         <LottieView
           source={require('../../media/4126-indian-neighborhood.json')}
           autoPlay
@@ -40,24 +41,45 @@ export default class EntryScreen extends Component {
         <Text>Current Language:</Text>
         <Text>{this.state.currLang}</Text>
         <Text>{stringsLang.entryscreen.test}</Text>
-        <Button title="Hindi" onPress={() => this.settextLang('hi')} />
-        <Button title="English" onPress={() => this.settextLang('en')} />
-        <Button
-          title="Signup as user"
-          onPress={() => this.props.navigation.navigate('SignupScreen')}
-        />
-        <Button
-          title="Signup as an MP"
-          onPress={() => this.props.navigation.navigate('MPSignupScreen')}
-        />
-        <Button
-          title="Login as user"
-          onPress={() => this.props.navigation.navigate('UserLogin')}
-        />
-        <Button
-          title="Login as an MP"
-          onPress={() => this.props.navigation.navigate('MPLogin')}
-        />
+        <View style={styles.buttonViewForEntry}>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="Hindi"
+            onPress={() => this.settextLang('hi')}
+          />
+          <Text>      </Text>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="English"
+            onPress={() => this.settextLang('en')}
+          />
+        </View>
+        <View style={styles.buttonViewForEntry}>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="Signup as user"
+            onPress={() => this.props.navigation.navigate('SignupScreen')}
+          />
+          <Text>      </Text>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="Signup as an MP"
+            onPress={() => this.props.navigation.navigate('MPSignupScreen')}
+          />
+        </View>
+        <View style={styles.buttonViewForEntry}>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="Login as user"
+            onPress={() => this.props.navigation.navigate('UserLogin')}
+          />
+          <Text>      </Text>
+          <Button
+            style={styles.buttonStyleForEntry}
+            title="Login as an MP"
+            onPress={() => this.props.navigation.navigate('MPLogin')}
+          />
+        </View>
         {/* <Button
           title="User Home"
           onPress={() => this.props.navigation.navigate('UserHome')}
@@ -80,6 +102,16 @@ export default class EntryScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  mainTitle: {
+    fontWeight: 'bold',
+    fontSize: 40,
+    color: 'white',
+  },
+  buttonViewForEntry: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

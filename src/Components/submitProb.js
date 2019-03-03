@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { submitComplaint } from '../config.json';
+import MyHeader from './Common/Header';
 
 // More info on all the options is below in the API Reference... just some common use cases shown here
 const options = {
@@ -170,48 +171,55 @@ export default class submitProb extends Component {
 
   render() {
     return (
-      <View
-        style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
-      >
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{ uri: 'https://png.icons8.com/phone' }}
-          />
-          <TextInput
-            style={styles.inputs}
-            value={this.state.name}
-            placeholder="Problem name"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={name => this.setState({ name })}
-          />
+      <View>
+        <MyHeader navigation={this.props.navigation} title="Add Problem" />
+        <View
+          style={{
+            flexGrow: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{ uri: 'https://png.icons8.com/title' }}
+            />
+            <TextInput
+              style={styles.inputs}
+              value={this.state.name}
+              placeholder="Problem name"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={name => this.setState({ name })}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{ uri: 'https://png.icons8.com/description' }}
+            />
+            <TextInput
+              style={styles.inputs}
+              value={this.state.description}
+              placeholder="Problem description"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={description => this.setState({ description })}
+            />
+          </View>
+          <Button title="choose Image" onPress={() => this.chooseImage()} />
+          {this.state.imageSource != null && (
+            <Image
+              source={this.state.imageSource}
+              style={{ width: 100, height: 100 }}
+            />
+          )}
+          <Text>Latitude: {this.state.latitude}</Text>
+          <Text>Longitude: {this.state.longitude}</Text>
+          {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+          <Button title="Submit Problem" onPress={() => this.submitProblem()} />
         </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{ uri: 'https://png.icons8.com/phone' }}
-          />
-          <TextInput
-            style={styles.inputs}
-            value={this.state.description}
-            placeholder="Problem description"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={description => this.setState({ description })}
-          />
-        </View>
-        <Button title="choose Image" onPress={() => this.chooseImage()} />
-        {this.state.imageSource != null && (
-          <Image
-            source={this.state.imageSource}
-            style={{ width: 100, height: 100 }}
-          />
-        )}
-        <Text>Latitude: {this.state.latitude}</Text>
-        <Text>Longitude: {this.state.longitude}</Text>
-        {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
-        <Button title="Submit Problem" onPress={() => this.submitProblem()} />
       </View>
     );
   }

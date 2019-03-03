@@ -13,9 +13,14 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-import { verifyMPOTP } from '../../config.json';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { verifyMPOTP, getOTP } from '../../config.json';
 
 export default class MPLoginScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

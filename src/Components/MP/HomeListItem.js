@@ -5,10 +5,15 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  Image,
 } from 'react-native';
-import { Badge, Input } from 'react-native-elements';
+import { Badge, Input, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import { Buffer } from 'buffer';
 import Comments from '../Common/Comments';
+
+import { addToConsideration, approve, userCommentAdd } from '../../config.json';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -75,14 +80,27 @@ const styles = StyleSheet.create({
   addComment: {
     height: 50,
   },
+  votingButtons: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
 });
 
+function getBase64(data) {
+  return new Buffer(data).toString('base64');
+}
+
 export default class HomeListItem extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super();
     this.state = {
       expanded: false,
       addedComment: null,
+      refresh: false,
     };
   }
 
@@ -94,6 +112,38 @@ export default class HomeListItem extends Component {
     this.setState({ expanded: !this.state.expanded });
   };
 
+  addToConsider = () => {
+    axios
+      .post(addToConsideration, {
+        mpid: this.props.mp._id,
+        complaintid: this.props.item._id,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    this.setState({ refresh: !!!this.state.refresh });
+  };
+
+  addToApprove = () => {
+    axios
+      .post(approve, {
+        mpid: this.props.user._id,
+        complaintid: this.props.item._id,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    this.setState({ refresh: !!!this.state.refresh });
+  };
+
+  addComment = () => {
+    axios.post(userCommentAdd, {
+      username: this.props.user.name,
+      userid: this.props.user._id,
+      complaintid: this.props.item._id,
+      text: this.state.addedComment,
+    });
+    this.setState({ addedComment: '' });
+  };
+
   expandList = () => {
     const {
       title,
@@ -103,7 +153,12 @@ export default class HomeListItem extends Component {
       tags,
       comments,
       status,
+      _id,
+      image,
     } = this.props.item;
+    const { refresh, addedComment } = this.state;
+    console.log(`Rec Image: ${image}`);
+    const image64 = 'data:image/png;base64,' + image;
     return (
       <View>
         <View style={styles.tagView}>
@@ -119,11 +174,55 @@ export default class HomeListItem extends Component {
         <View style={styles.description}>
           <Text style={styles.problemDescription}>{description}</Text>
         </View>
+        <View>
+          <Image
+            source={{ uri: image64 }}
+            style={{ height: 200, width: 200 }}
+          />
+        </View>
+        <View>
+          {status === 'new' && (
+            <Button
+              style={styles.votingButtons}
+              title="Add to Consider"
+              onPress={() => this.addToConsider()}
+            />
+          )}
+          {status !== 'approved' && (
+            <Button
+              style={styles.votingButtons}
+              title="Approve"
+              onPress={() => this.addToApprove()}
+            />
+          )}
+        </View>
+        <Comments comments={comments} />
+        <View style={styles.addComment}>
+          <Input
+            placeholder="Add your comment..."
+            value={this.state.addedComment}
+            onChangeText={text => {
+              this.setState({ addedComment: text });
+            }}
+            leftIcon={<Icon name="comments-o" size={20} color="black" />}
+            rightIcon={
+              <Icon
+                color="black"
+                name="send-o"
+                size={20}
+                onPress={() => {
+                  this.addComment();
+                }}
+              />
+            }
+          />
+        </View>
       </View>
     );
   };
 
   render() {
+    console.log(`Inside List Item ${JSON.stringify(this.props.user)}`);
     const { title, upvotes, downvotes } = this.props.item;
     return (
       <View style={styles.listItem}>

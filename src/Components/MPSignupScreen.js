@@ -13,18 +13,21 @@ import {
 import axios from 'axios';
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import { submitForm } from '../config.json';
+import { submitMPForm } from '../config.json';
 
 export default class MPSignUpView extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      fullName: '',
-      Phone: '',
-      State: '',
-      City: '',
-      Constituency: '',
-      State: '',
+      name: '',
+      phone: '',
+      state: '',
+      city: '',
+      constituency: '',
       address: '',
       officeAddress: '',
     };
@@ -32,7 +35,7 @@ export default class MPSignUpView extends Component {
 
   onClickListener = () => {
     axios
-      .post(submitForm, this.state)
+      .post(submitMPForm, this.state)
       .then(res => {
         // console.log(`Received axios response ${JSON.stringify(res)}`);
         if (res.data === 'user already exists') {
@@ -50,9 +53,7 @@ export default class MPSignUpView extends Component {
             StackActions.reset({
               index: 0,
               key: null,
-              actions: [
-                NavigationActions.navigate({ routeName: 'MPLogin' }),
-              ],
+              actions: [NavigationActions.navigate({ routeName: 'MPLogin' })],
             })
           );
         }
@@ -76,9 +77,10 @@ export default class MPSignUpView extends Component {
           <TextInput
             style={styles.inputs}
             placeholder="Name"
+            value={this.state.name}
             keyboardType="email-address"
             underlineColorAndroid="transparent"
-            onChangeText={fullName => this.setState({ fullName })}
+            onChangeText={name => this.setState({ name })}
           />
         </View>
 
@@ -91,10 +93,11 @@ export default class MPSignUpView extends Component {
           />
           <TextInput
             style={styles.inputs}
-            placeholder="Phone Number"
+            value={this.state.phone}
+            placeholder="phone Number"
             keyboardType="phone-pad"
             underlineColorAndroid="transparent"
-            onChangeText={Phone => this.setState({ Phone })}
+            onChangeText={phone => this.setState({ phone })}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -106,6 +109,7 @@ export default class MPSignUpView extends Component {
           />
           <TextInput
             style={styles.inputs}
+            value={this.state.address}
             placeholder="Address"
             keyboardType="email-address"
             underlineColorAndroid="transparent"
@@ -122,9 +126,10 @@ export default class MPSignUpView extends Component {
           <TextInput
             style={styles.inputs}
             placeholder="Office Address"
+            value={this.state.officeAddress}
             keyboardType="email-address"
             underlineColorAndroid="transparent"
-            onChangeText={address => this.setState({ officeAddress })}
+            onChangeText={officeAddress => this.setState({ officeAddress })}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -136,11 +141,12 @@ export default class MPSignUpView extends Component {
           />
           <Picker
             style={{ flex: 1 }}
-            selectedValue={this.state.City}
+            selectedValue={this.state.city}
             onValueChange={(itemValue, index) =>
-              this.setState({ City: itemValue })
+              this.setState({ city: itemValue })
             }
           >
+            <Picker.Item label="Select city" value="" />
             <Picker.Item label="Delhi" value="Delhi" />
             <Picker.Item label="Guwahati" value="Guwahati" />
             <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />
@@ -155,11 +161,12 @@ export default class MPSignUpView extends Component {
           />
           <Picker
             style={{ flex: 1 }}
-            selectedValue={this.state.Constituency}
+            selectedValue={this.state.constituency}
             onValueChange={(itemValue, index) =>
-              this.setState({ Constituency: itemValue })
+              this.setState({ constituency: itemValue })
             }
           >
+            <Picker.Item label="Select constituency" value="" />
             <Picker.Item label="Delhi" value="Delhi" />
             <Picker.Item label="Guwahati" value="Guwahati" />
             <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />
@@ -174,11 +181,12 @@ export default class MPSignUpView extends Component {
           />
           <Picker
             style={{ flex: 1 }}
-            selectedValue={this.state.State}
+            selectedValue={this.state.state}
             onValueChange={(itemValue, index) =>
-              this.setState({ State: itemValue })
+              this.setState({ state: itemValue })
             }
           >
+            <Picker.Item label="Select State" value="" />
             <Picker.Item label="Delhi" value="Delhi" />
             <Picker.Item label="Guwahati" value="Guwahati" />
             <Picker.Item label="Uttar Pradesh" value="Uttar Pradesh" />

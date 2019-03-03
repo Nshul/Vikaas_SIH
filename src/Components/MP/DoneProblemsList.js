@@ -133,7 +133,6 @@ export default class HomeListItem extends Component {
               <View style={styles.problemHeaderTitle}>
                 <Text style={styles.problemTitle}>{title}</Text>
               </View>
-              
             </View>
             <View>
               {!this.state.expanded && (

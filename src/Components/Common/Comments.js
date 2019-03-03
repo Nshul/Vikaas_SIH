@@ -22,8 +22,8 @@ function RenderItem(item) {
   return (
     <View style={styles.commentBody}>
       <ListItem
-        title={<Text style={styles.name}>Anshul Kumar</Text>}
-        subtitle={<Text style={styles.comment}>{item}</Text>}
+        title={<Text style={styles.name}>{item.author.name}</Text>}
+        subtitle={<Text style={styles.comment}>{item.text}</Text>}
         leftAvatar={{
           rounded: true,
           source: {

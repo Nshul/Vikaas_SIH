@@ -16,6 +16,7 @@ import SignupScreen from './SignupScreen';
 import MPSignupScreen from './MPSignupScreen';
 import MPDoneProblems from './MP/DoneProblems';
 import MPInProgressProblems from './MP/InProgressProblems';
+import OtherMP from './MP/OtherMinisters';
 
 const UserDrawerNavigator = createDrawerNavigator({
   UserHome: { screen: UserHome },
@@ -30,6 +31,7 @@ const MPDrawerNavigator = createDrawerNavigator({
   HomeScreen: { screen: HomeScreen },
   DoneProblems: { screen: MPDoneProblems },
   InProgressProblems: { screen: MPInProgressProblems },
+  OtherMP: { screen: OtherMP },
 });
 
 const UserLoginNavigator = createStackNavigator({

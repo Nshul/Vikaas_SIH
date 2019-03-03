@@ -51,7 +51,12 @@ export default class MPHome extends Component {
       return (
         <FlatList
           data={problemsFeed}
-          renderItem={({ item }) => <HomeListItem item={item} />}
+          renderItem={({ item }) => (
+            <HomeListItem
+              item={item}
+              user={this.props.navigation.getParam('user')}
+            />
+          )}
           keyExtractor={(item, index) => index.toString()}
         />
       );

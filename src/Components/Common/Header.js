@@ -9,7 +9,7 @@ const MyHeader = props => {
       leftComponent={<HamburgerMenu navigation={props.navigation} />}
       centerComponent={{
         text: props.title,
-        style: { color: '#fff', fontWeight: 'bold', fontSize: 30 },
+        style: { color: '#fff', fontWeight: 'bold', fontSize: 20 },
       }}
       statusBarProps={{ barStyle: 'light-content' }}
       containerStyle={{

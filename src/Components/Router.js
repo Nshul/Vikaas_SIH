@@ -14,6 +14,8 @@ import Roadmap from './Roadmap';
 import submitProb from './submitProb';
 import SignupScreen from './SignupScreen';
 import MPSignupScreen from './MPSignupScreen';
+import MPDoneProblems from './MP/DoneProblems';
+import MPInProgressProblems from './MP/InProgressProblems';
 
 const UserDrawerNavigator = createDrawerNavigator({
   UserHome: { screen: UserHome },
@@ -26,6 +28,8 @@ const MPDrawerNavigator = createDrawerNavigator({
   MPHome: { screen: MPHome },
   Roadmap: { screen: Roadmap },
   HomeScreen: { screen: HomeScreen },
+  DoneProblems: { screen: MPDoneProblems },
+  InProgressProblems: { screen: MPInProgressProblems },
 });
 
 const UserLoginNavigator = createStackNavigator({

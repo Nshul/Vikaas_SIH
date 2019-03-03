@@ -34,15 +34,21 @@ const MPDrawerNavigator = createDrawerNavigator({
   OtherMP: { screen: OtherMP },
 });
 
-const UserLoginNavigator = createStackNavigator({
-  UserLoginScreen: { screen: UserLoginScreen },
-  Main: { screen: UserDrawerNavigator },
-});
+const UserLoginNavigator = createStackNavigator(
+  {
+    UserLoginScreen: { screen: UserLoginScreen },
+    Main: { screen: UserDrawerNavigator },
+  },
+  { headerMode: 'none' }
+);
 
-const MpLoginNavigator = createStackNavigator({
-  MPLoginScreen: { screen: MPLoginScreen },
-  Main: { screen: MPDrawerNavigator },
-});
+const MpLoginNavigator = createStackNavigator(
+  {
+    MPLoginScreen: { screen: MPLoginScreen },
+    Main: { screen: MPDrawerNavigator },
+  },
+  { headerMode: 'none' }
+);
 
 const AppNavigator = createStackNavigator({
   EntryScreen: {

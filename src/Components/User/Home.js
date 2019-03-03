@@ -6,10 +6,11 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import * as axios from 'axios';
 
-import { UserProblemFeed } from '../../config.json';
+import { UserProblemFeed, predictiveSearch } from '../../config.json';
 import MyHeader from '../Common/Header';
 import HomeListItem from './HomeListItem';
 
@@ -29,12 +30,25 @@ export default class UserHome extends Component {
     this.state = {
       problemsLoaded: false,
       problemsFeed: [],
+      searchValue: null,
     };
   }
 
   componentWillMount() {
     this.fetchProblems();
   }
+
+  advFetchProblems = () => {
+    this.setState({ problemsLoaded: false, problemsFeed: [] });
+    axios
+      .post(predictiveSearch, { sentence: this.state.searchValue })
+      .then(({ data }) => {
+        this.setState({
+          problemsFeed: data,
+          problemsLoaded: true,
+        });
+      });
+  };
 
   fetchProblems() {
     axios.get(UserProblemFeed).then(({ data }) => {
@@ -78,6 +92,14 @@ export default class UserHome extends Component {
     return (
       <LinearGradient colors={['#7ed56f', '#28b485']} style={styles.main}>
         <MyHeader navigation={this.props.navigation} title="Home" />
+        <SearchBar
+          placeholder="Search..."
+          value={this.state.searchValue}
+          onChangeText={text => {
+            this.setState({ searchValue: text });
+            this.advFetchProblems();
+          }}
+        />
         {this.renderList()}
       </LinearGradient>
     );

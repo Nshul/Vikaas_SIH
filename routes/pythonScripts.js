@@ -3,15 +3,18 @@ const express = require('express'),
   { PythonShell } = require('python-shell'),
   Complaint = require('../models/complaint');
 
-let complaints = [];
+const complaints = [];
 let fetchedComplaints = false;
 
 router.post('/predictiveSearch', (req, res) => {
-  const { complaints } = req.body;
+  const { sentence } = req.body;
   if (!fetchedComplaints) {
-    // Complaint.find({}).then(complaint => {
-    //   complaints.push(complaint);
-    // });
+    Complaint.find({}).then(complaint => {
+      complaints.push(complaint);
+    });
+    if (sentence.length === 0) {
+      return res.json(complaints);
+    }
     console.log(req.body);
     console.log('fetchedComplaints was false');
     // complaints = [
@@ -26,7 +29,7 @@ router.post('/predictiveSearch', (req, res) => {
     fetchedComplaints = true;
     setTimeout(function() {
       fetchedComplaints = false;
-    }, 20000);
+    }, 50000);
     PythonShell.run(
       __dirname + '/../src/Python/Search.py',
       options,
@@ -36,10 +39,12 @@ router.post('/predictiveSearch', (req, res) => {
         } else {
           console.log(JSON.stringify(data));
           res.json(data);
+          return;
         }
       }
     );
   } else {
+    if (sentence.length === 0) return res.json(complaints);
     console.log('fetchedComplaints was true');
     // complaints = [
     //   { index: 1, description: 'There is water shortage in our region' },
@@ -59,6 +64,7 @@ router.post('/predictiveSearch', (req, res) => {
         } else {
           console.log(data);
           res.json(data);
+          return;
         }
       }
     );
@@ -85,8 +91,16 @@ router.post('/summarizetext', (req, res) => {
   );
 });
 
-router.post('/sentimentAnalysis', (req, res) => {
-  const { comments } = req.body;
+router.post('/sentimentAnalysis', async (req, res) => {
+  const { complaintID } = req.body;
+
+  const comments = await Complaint.findById(complaintID)
+    .populate('comments')
+    .exec()
+    .then(complaint => complaint.comments.map(comment => comment.text));
+
+  console.log(comments);
+  
   const options = {
     pythonPath: __dirname + '/../pythonSRC/bin/python3',
     args: [JSON.stringify(comments)],

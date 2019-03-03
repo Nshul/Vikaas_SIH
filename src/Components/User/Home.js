@@ -51,7 +51,12 @@ export default class UserHome extends Component {
       return (
         <FlatList
           data={problemsFeed}
-          renderItem={({ item }) => <HomeListItem item={item} />}
+          renderItem={({ item }) => (
+            <HomeListItem
+              item={item}
+              user={this.props.navigation.getParam('user')}
+            />
+          )}
           keyExtractor={(item, index) => index.toString()}
         />
       );
@@ -64,6 +69,11 @@ export default class UserHome extends Component {
   }
 
   render() {
+    console.log(
+      `Logged in with user ${JSON.stringify(
+        this.props.navigation.getParam('user')
+      )}`
+    );
     const { problemsLoaded, problemsFeed } = this.state;
     return (
       <LinearGradient colors={['#7ed56f', '#28b485']} style={styles.main}>

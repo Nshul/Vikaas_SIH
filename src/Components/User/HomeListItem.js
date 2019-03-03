@@ -5,10 +5,19 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  Image,
 } from 'react-native';
-import { Badge, Input } from 'react-native-elements';
+import { Badge, Input, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import { Buffer } from 'buffer';
 import Comments from '../Common/Comments';
+
+import {
+  userUpvoteProblem,
+  userDownvoteProblem,
+  userCommentAdd,
+} from '../../config.json';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -77,6 +86,10 @@ const styles = StyleSheet.create({
   },
 });
 
+function getBase64(data) {
+  return new Buffer(data).toString('base64');
+}
+
 export default class HomeListItem extends Component {
   constructor(props) {
     super();
@@ -94,6 +107,35 @@ export default class HomeListItem extends Component {
     this.setState({ expanded: !this.state.expanded });
   };
 
+  upvoteComplaint = () => {
+    axios
+      .post(userUpvoteProblem, {
+        user: this.props.user._id,
+        complaintid: this.props.item._id,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  downvoteComplaint = () => {
+    axios
+      .post(userDownvoteProblem, {
+        user: this.props.user._id,
+        complaintid: this.props.item._id,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  addComment = () => {
+    axios.post(userCommentAdd, {
+      username: this.props.user.name,
+      userid: this.props.user._id,
+      complaintid: this.props.item._id,
+      text: this.state.addedComment,
+    });
+  };
+
   expandList = () => {
     const {
       title,
@@ -103,7 +145,11 @@ export default class HomeListItem extends Component {
       tags,
       comments,
       status,
+      _id,
+      image,
     } = this.props.item;
+    console.log(`Rec Image: ${image}`);
+    const image64 = 'data:image/png;base64,' + image;
     return (
       <View>
         <View style={styles.tagView}>
@@ -119,10 +165,21 @@ export default class HomeListItem extends Component {
         <View style={styles.description}>
           <Text style={styles.problemDescription}>{description}</Text>
         </View>
+        <View>
+          <Image
+            source={{ uri: image64 }}
+            style={{ height: 200, width: 200 }}
+          />
+        </View>
+        <View>
+          <Button title="Upvote" onPress={() => this.upvoteComplaint()} />
+          <Button title="Downvote" onPress={() => this.downvoteComplaint()} />
+        </View>
         <Comments comments={comments} />
         <View style={styles.addComment}>
           <Input
             placeholder="Add your comment..."
+            value={this.state.addedComment}
             onChangeText={text => {
               this.setState({ addedComment: text });
             }}
@@ -133,7 +190,7 @@ export default class HomeListItem extends Component {
                 name="send-o"
                 size={20}
                 onPress={() => {
-                  console.log(`Sending comment ${this.state.addedComment}`);
+                  this.addComment();
                 }}
               />
             }
@@ -144,6 +201,7 @@ export default class HomeListItem extends Component {
   };
 
   render() {
+    console.log(`Inside List Item ${JSON.stringify(this.props.user)}`);
     const { title, upvotes, downvotes } = this.props.item;
     return (
       <View style={styles.listItem}>

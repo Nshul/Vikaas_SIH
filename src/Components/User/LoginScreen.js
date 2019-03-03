@@ -69,7 +69,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
-export default class SignUpView extends Component {
+export default class UserLoginScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -99,7 +103,7 @@ export default class SignUpView extends Component {
             index: 0,
             actions: [
               NavigationActions.navigate({
-                routeName: 'UserHome',
+                routeName: 'Main',
                 params: { user: data[0] },
               }),
             ],
@@ -114,7 +118,7 @@ export default class SignUpView extends Component {
         this.setState({ otpRequested: true });
         return;
       }
-      Alert.alert(res.data);
+      Alert.alert(JSON.stringify(res.data));
     });
   };
 

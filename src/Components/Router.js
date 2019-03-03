@@ -1,4 +1,8 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createDrawerNavigator,
+} from 'react-navigation';
 
 import EntryScreen from './EntryScreen';
 import HomeScreen from './HomeScreen';
@@ -11,17 +15,50 @@ import submitProb from './submitProb';
 import SignupScreen from './SignupScreen';
 import MPSignupScreen from './MPSignupScreen';
 
-const AppNavigator = createStackNavigator({
-  EntryScreen: { screen: EntryScreen },
-  HomeScreen: { screen: HomeScreen },
+const UserDrawerNavigator = createDrawerNavigator({
   UserHome: { screen: UserHome },
-  UserLoginScreen: { screen: UserLoginScreen },
-  MPHome: {screen: MPHome},
-  MPLoginScreen: { screen: MPLoginScreen },
-  Roadmap: { screen: Roadmap },
   submitProb: { screen: submitProb },
+  Roadmap: { screen: Roadmap },
+  HomeScreen: { screen: HomeScreen },
+});
+
+const MPDrawerNavigator = createDrawerNavigator({
+  MPHome: { screen: MPHome },
+  Roadmap: { screen: Roadmap },
+  HomeScreen: { screen: HomeScreen },
+});
+
+const UserLoginNavigator = createStackNavigator({
+  UserLoginScreen: { screen: UserLoginScreen },
+  Main: { screen: UserDrawerNavigator },
+});
+
+const MpLoginNavigator = createStackNavigator({
+  MPLoginScreen: { screen: MPLoginScreen },
+  Main: { screen: MPDrawerNavigator },
+});
+
+const AppNavigator = createStackNavigator({
+  EntryScreen: {
+    screen: EntryScreen,
+  },
   SignupScreen: { screen: SignupScreen },
   MPSignupScreen: { screen: MPSignupScreen },
+  MPLogin: { screen: MpLoginNavigator },
+  UserLogin: { screen: UserLoginNavigator },
 });
+
+// const AppNavigator = createStackNavigator({
+//   EntryScreen: { screen: EntryScreen },
+//   HomeScreen: { screen: HomeScreen },
+//   UserHome: { screen: UserHome },
+//   UserLoginScreen: { screen: UserLoginScreen },
+//   MPHome: { screen: MPHome },
+//   MPLoginScreen: { screen: MPLoginScreen },
+//   Roadmap: { screen: Roadmap },
+//   submitProb: { screen: submitProb },
+//   SignupScreen: { screen: SignupScreen },
+//   MPSignupScreen: { screen: MPSignupScreen },
+// });
 
 export default createAppContainer(AppNavigator);

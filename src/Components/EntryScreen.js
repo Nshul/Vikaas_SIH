@@ -52,13 +52,13 @@ export default class EntryScreen extends Component {
         />
         <Button
           title="Login as user"
-          onPress={() => this.props.navigation.navigate('UserLoginScreen')}
+          onPress={() => this.props.navigation.navigate('UserLogin')}
         />
         <Button
           title="Login as an MP"
-          onPress={() => this.props.navigation.navigate('MPLoginScreen')}
+          onPress={() => this.props.navigation.navigate('MPLogin')}
         />
-        <Button
+        {/* <Button
           title="User Home"
           onPress={() => this.props.navigation.navigate('UserHome')}
         />
@@ -73,7 +73,7 @@ export default class EntryScreen extends Component {
         <Button
           title="submit problem"
           onPress={() => this.props.navigation.navigate('submitProb')}
-        />
+        /> */}
       </View>
     );
   }

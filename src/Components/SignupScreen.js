@@ -102,7 +102,7 @@ export default class SignUpView extends Component {
               index: 0,
               key: null,
               actions: [
-                NavigationActions.navigate({ routeName: 'UserLoginScreen' }),
+                NavigationActions.navigate({ routeName: 'UserLogin' }),
               ],
             })
           );
@@ -113,7 +113,7 @@ export default class SignUpView extends Component {
               index: 0,
               key:null,
               actions: [
-                NavigationActions.navigate({ routeName: 'UserLoginScreen' }),
+                NavigationActions.navigate({ routeName: 'UserLogin' }),
               ],
             })
           );

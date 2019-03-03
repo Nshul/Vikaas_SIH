@@ -1,6 +1,5 @@
 const express = require('express'),
 	app = express(),
-	multer = require('multer'),
 	bodyParser = require('body-parser'),
 	mongoose = require('mongoose');
 
@@ -8,6 +7,7 @@ const indexRoutes = require('./routes/index'),
 	authRoutes = require('./routes/auth'),
 	userRoutes = require('./routes/user'),
 	commentRoutes = require('./routes/comment'),
+	mpRoutes = require('./routes/mp'),
 	complaintRoutes = require('./routes/complaint');
 
 mongoose.Promise = global.Promise;
@@ -22,6 +22,7 @@ app.use('/', authRoutes);
 app.use('/', complaintRoutes);
 app.use('/', userRoutes);
 app.use('/', commentRoutes);
+app.use('/', mpRoutes);
 
 app.listen(8000, () => {
 	console.log('Server has started');

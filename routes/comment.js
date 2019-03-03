@@ -31,4 +31,10 @@ router.post('/comment', (req, res) => {
 		});
 });
 
+router.post('/complaint/comments', (req, res) => {
+	Complaint.findById(req.body.complaintid).populate('comments').exec().then((complaint) => {
+		return complaint.comments;
+	});
+});
+
 module.exports = router;

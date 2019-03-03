@@ -10,28 +10,24 @@ router.post('/comment', (req, res) => {
 	Complaint.findById(req.body.complaintid)
 		.then((Complaint) => {
 			Comment.create({
-				name: req.body.name,
-				phone: req.body.phone,
-				state: req.body.state,
-				city: req.body.city,
-				constituency: req.body.constituency
+				text: req.body.text
 			})
 				.then((Comment) => {
-					Comment.author.id = req.body.user._id;
-					Comment.author.name = req.body.user.name;
+					Comment.author.id = req.body.userid;
+					Comment.author.name = req.body.username;
 					Comment.save();
 
 					Complaint.comments.push(Comment);
 					Complaint.save();
 
-					return res.send('comment added successfully');
+					return res.send('success');
 				})
 				.catch((err) => {
-					return res.send('error: db create comment');
+					return res.send('error');
 				});
 		})
 		.catch((err) => {
-			return res.send('error: complaint find');
+			return res.send('error');
 		});
 });
 

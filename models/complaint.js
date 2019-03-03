@@ -2,9 +2,18 @@ var mongoose = require('mongoose');
 
 var ComplaintSchema = new mongoose.Schema({
 	title: String,
-	upvotes: Number,
-	downvotes: Number,
+	upvotes: {
+		type: Number,
+		default: 0
+	},
+	downvotes: {
+		type: Number,
+		default: 0
+	},
+	image: String,
 	description: String,
+	latitude: Number,
+	longitude: Number,
 	tags: [
 		{
 			type: String

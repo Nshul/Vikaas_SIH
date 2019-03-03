@@ -13,8 +13,8 @@ const indexRoutes = require('./routes/index'),
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://vikaas:sih2019@ds029106.mlab.com:29106/sih');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
 app.set('view engine', 'ejs');
 
 app.use('/', indexRoutes);

@@ -1,7 +1,10 @@
 const express = require('express'),
 	User = require('../models/user'),
 	Complaint = require('../models/complaint'),
-	router = express.Router({ mergeParams: true });
+	multer = require('multer'),
+	fs = require('fs-extra'),
+	router = express.Router({ mergeParams: true }),
+	upload = multer({ limits: { fileSize: 2000000 }, dest: '../uploads/' });
 
 router.get('/testdb', (req, res) => {
 	User.create({}, (err, user) => {
@@ -20,13 +23,12 @@ router.get('/testdb', (req, res) => {
 });
 
 router.get('/complaints', (req, res) => {
-	Complaint.find({})
-		.then((complaints) => {
-			return res.send(complaints);
-		})
-		.catch((err) => {
-			return res.send('error: db fetch complaints');
-		});
+	Complaint.find({}).populate('comments').exec((err, complaints) => {
+		if (err) {
+			return res.send(err);
+		}
+		return res.send(complaints);
+	});
 });
 
 router.get('/addcomplaint', (req, res) => {
@@ -53,6 +55,49 @@ router.post('/addcomplaint', (req, res) => {
 	);
 });
 
+router.post('/newcomplaint', (req, res) => {
+	// console.log('req', req);
+	console.log(req.body.picture);
+	// console.log(req.file);
+	// console.log(req.body.picture);
+
+	var newComplaint = {
+		description: req.body.description,
+		title: req.body.title,
+		latitude: req.body.latitude,
+		longitude: req.body.longitude
+	};
+
+	if (req.body.picture != null) {
+		// let newImg = fs.readFileSync(req.file.path);
+		// let encImg = newImg.toString('base64');
+		// console.log(encImg);
+
+		// newComplaint.image = Buffer(req.body.picture, 'base64');
+		newComplaint.image = req.body.picture;
+	}
+
+	console.log(newComplaint);
+
+	Complaint.create(newComplaint, (err, complaint) => {
+		if (err) {
+			return res.send(err);
+		}
+
+		complaint.author = '5c7ac2a1f6dbda4520d4f1bb';
+		console.log(complaint);
+		complaint.save();
+
+		// fs.remove(req.file.path, function(err) {
+		// 	if (err) {
+		// 		return res.send(err);
+		// 	}
+		// });
+
+		return res.send(complaint);
+	});
+});
+
 router.post('/upvote', (req, res) => {
 	console.log('yo');
 	console.log(req.body);
@@ -64,6 +109,7 @@ router.post('/upvote', (req, res) => {
 				let index = complaint.upvoters.indexOf(req.body.user);
 
 				complaint.upvoters.splice(index, 1);
+				complaint.upvotes -= 1;
 				complaint.save();
 
 				return res.send('removed upvote');
@@ -72,9 +118,11 @@ router.post('/upvote', (req, res) => {
 			if (complaint.downvoters.includes(req.body.user)) {
 				let index = complaint.downvoters.indexOf(req.body.user);
 
+				complaint.downvotes -= 1;
 				complaint.downvoters.splice(index, 1);
 			}
 
+			complaint.upvotes += 1;
 			complaint.upvoters.push(req.body.user);
 			complaint.save();
 
@@ -95,6 +143,7 @@ router.post('/downvote', (req, res) => {
 				console.log('found');
 				let index = complaint.downvoters.indexOf(req.body.user);
 
+				complaint.downvotes -= 1;
 				complaint.downvoters.splice(index, 1);
 				complaint.save();
 
@@ -104,9 +153,11 @@ router.post('/downvote', (req, res) => {
 			if (complaint.upvoters.includes(req.body.user)) {
 				let index = complaint.upvoters.indexOf(req.body.user);
 
+				complaint.upvotes -= 1;
 				complaint.upvoters.splice(index, 1);
 			}
 
+			complaint.downvotes += 1;
 			complaint.downvoters.push(req.body.user);
 			complaint.save();
 

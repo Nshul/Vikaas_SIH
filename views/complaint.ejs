@@ -1,11 +1,11 @@
 <html>
 
 <body>
-  <form action='/addcomplaint' method='post'>
-    <input type='number' name='upvotes' placeholder='upvotes' required>
-    <input type='number' name='downvotes' placeholder='downvotes' required>
+  <form action='/newcomplaint' method='post' enctype="multipart/form-data">
     <input type='text' name='description' placeholder='description' required>
     <input type='text' name='title' placeholder='title' required>
+    <input type="file" name="picture" accept="application/x-zip-compressed,image/*">
+    <input type="">
     <button>Submit</button>
   </form>
 </body>

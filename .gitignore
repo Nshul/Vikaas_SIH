@@ -2,6 +2,14 @@
 #
 .DS_Store
 
+# python
+pythonSRC/bin
+pythonSRC/lib
+pythonSRC/include
+pythonSRC/lib64
+pythonSRC/pip-selfcheck.json
+pyvenv.cfg
+
 # Xcode
 #
 build/

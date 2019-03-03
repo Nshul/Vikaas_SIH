@@ -17,7 +17,7 @@ router.post('/requestotp', (req, response) => {
 	// 	return response.send('success');
 	// });
 
-	return response.send('success');
+	return response.status(200).send('success');
 });
 
 router.post('/user/verifyotp', (req, response) => {
@@ -50,7 +50,7 @@ router.post('/user/verifyotp', (req, response) => {
 		.catch((err) => {
 			console.log(err);
 
-			return response.send(err);
+			return response.status(200).send(err);
 		});
 });
 
@@ -81,10 +81,10 @@ router.post('/mp/verifyotp', (req, response) => {
 		phone: req.body.phone
 	})
 		.then((User) => {
-			return response.send(User);
+			return response.status(200).send(User);
 		})
 		.catch((err) => {
-			return response.send(err);
+			return response.status(200).send(err);
 		});
 });
 

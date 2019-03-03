@@ -20,14 +20,14 @@ router.post('/comment', (req, res) => {
 					Complaint.comments.push(Comment);
 					Complaint.save();
 
-					return res.send('success');
+					return res.status(200).send('success');
 				})
 				.catch((err) => {
-					return res.send('error');
+					return res.status(200).send('error');
 				});
 		})
 		.catch((err) => {
-			return res.send('error');
+			return res.status(200).send('error');
 		});
 });
 

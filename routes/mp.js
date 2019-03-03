@@ -11,7 +11,7 @@ router.post('/addmp', (req, res) => {
 	})
 		.then((mps) => {
 			if (mps.length > 0) {
-				return res.send('mp already exists');
+				return res.status(200).send('mp already exists');
 			}
 
 			Mp.create({
@@ -24,15 +24,15 @@ router.post('/addmp', (req, res) => {
 				constituency: req.body.constituency
 			})
 				.then((Mps) => {
-					return res.send('mp added');
+					return res.status(200).send('mp added');
 				})
 				.catch((err) => {
-					return res.send('error');
+					return res.status(200).send('error');
 				});
 		})
 		.catch((err) => {
 			console.log('ERROR: ', err);
-			res.send('error');
+			res.status(200).send('error');
 		});
 });
 
@@ -47,11 +47,11 @@ router.post('/addtoconsideration', (req, res) => {
 					mp.inconsideration.push(complaint);
 					mp.save();
 
-					return res.send('success');
+					return res.status(200).send('success');
 				})
 				.catch((err) => res.send('error'));
 		})
-		.catch((err) => res.send('error'));
+		.catch((err) => res.status(200).send('error'));
 });
 
 router.post('/addtoapprove', (req, res) => {
@@ -65,11 +65,11 @@ router.post('/addtoapprove', (req, res) => {
 					mp.approved.push(complaint);
 					mp.save();
 
-					return res.send('success');
+					return res.status(200).send('success');
 				})
 				.catch((err) => res.send('error'));
 		})
-		.catch((err) => res.send('error'));
+		.catch((err) => res.status(200).send('error'));
 });
 
 router.get('/inconsiderationproblems', (req, res) => {
@@ -79,7 +79,7 @@ router.get('/inconsiderationproblems', (req, res) => {
 		.then((mp) => {
 			return mp.inconsideration;
 		})
-		.catch((err) => res.send('error'));
+		.catch((err) => res.status(200).send('error'));
 });
 
 router.get('/approvedproblems', (req, res) => {
@@ -89,7 +89,7 @@ router.get('/approvedproblems', (req, res) => {
 		.then((mp) => {
 			return mp.approved;
 		})
-		.catch((err) => res.send('error'));
+		.catch((err) => res.status(200).send('error'));
 });
 
 router.get('/mps', (req, res) => {
@@ -100,9 +100,9 @@ router.get('/mps', (req, res) => {
 		.populate('approved')
 		.exec()
 		.then((Mps) => {
-			return res.send(Mps);
+			return res.status(200).send(Mps);
 		})
-		.catch((err) => res.send('error'));
+		.catch((err) => res.status(200).send('error'));
 });
 
 module.exports = router;

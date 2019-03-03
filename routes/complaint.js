@@ -9,15 +9,15 @@ const express = require('express'),
 router.get('/testdb', (req, res) => {
 	User.create({}, (err, user) => {
 		if (err) {
-			return res.send(err);
+			return res.status(200).send(err);
 		}
 
 		User.find({}, (err, user) => {
 			if (err) {
-				return res.send(err);
+				return res.status(200).send(err);
 			}
 
-			res.send(user);
+			res.status(200).send(user);
 		});
 	});
 });
@@ -25,9 +25,9 @@ router.get('/testdb', (req, res) => {
 router.get('/complaints', (req, res) => {
 	Complaint.find({}).populate('comments').exec((err, complaints) => {
 		if (err) {
-			return res.send(err);
+			return res.status(200).send(err);
 		}
-		return res.send(complaints);
+		return res.status(200).send(complaints);
 	});
 });
 
@@ -45,7 +45,7 @@ router.post('/addcomplaint', (req, res) => {
 		},
 		(err, complaint) => {
 			if (err) {
-				return res.send(err);
+				return res.status(200).send(err);
 			}
 
 			complaint.author = req.body.user.id;
@@ -81,7 +81,7 @@ router.post('/newcomplaint', (req, res) => {
 
 	Complaint.create(newComplaint, (err, complaint) => {
 		if (err) {
-			return res.send(err);
+			return res.status(200).send(err);
 		}
 
 		complaint.author = '5c7ac2a1f6dbda4520d4f1bb';
@@ -94,7 +94,7 @@ router.post('/newcomplaint', (req, res) => {
 		// 	}
 		// });
 
-		return res.send(complaint);
+		return res.status(200).send(complaint);
 	});
 });
 
@@ -112,7 +112,7 @@ router.post('/upvote', (req, res) => {
 				complaint.upvotes -= 1;
 				complaint.save();
 
-				return res.send('removed upvote');
+				return res.status(200).send('removed upvote');
 			}
 
 			if (complaint.downvoters.includes(req.body.user)) {
@@ -126,10 +126,10 @@ router.post('/upvote', (req, res) => {
 			complaint.upvoters.push(req.body.user);
 			complaint.save();
 
-			return res.send('upvoted');
+			return res.status(200).send('upvoted');
 		})
 		.catch((err) => {
-			return res.send(err);
+			return res.status(200).send(err);
 		});
 });
 
@@ -147,7 +147,7 @@ router.post('/downvote', (req, res) => {
 				complaint.downvoters.splice(index, 1);
 				complaint.save();
 
-				return res.send('removed downvote');
+				return res.status(200).send('removed downvote');
 			}
 
 			if (complaint.upvoters.includes(req.body.user)) {
@@ -161,10 +161,10 @@ router.post('/downvote', (req, res) => {
 			complaint.downvoters.push(req.body.user);
 			complaint.save();
 
-			return res.send('downvoted');
+			return res.status(200).send('downvoted');
 		})
 		.catch((err) => {
-			return res.send(err);
+			return res.status(200).send(err);
 		});
 });
 

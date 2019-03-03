@@ -7,7 +7,7 @@ const express = require('express'),
 	upload = multer({ limits: { fileSize: 2000000 }, dest: '../uploads/' });
 
 router.get('/', (req, res) => {
-	return res.send('Hello');
+	return res.status(200).send('Hello');
 });
 
 router.get('/image', (req, res) => {
@@ -38,12 +38,12 @@ router.post('/uploadpicture', upload.single('picture'), function(req, res) {
 					if (err) {
 						console.log(err);
 					}
-					res.send('Thanks for the Picture!');
+					res.status(200).send('Thanks for the Picture!');
 				});
 			})
 			.catch((err) => {
 				console.log(err);
-				res.send(err);
+				res.status(200).send(err);
 			});
 	}
 });
@@ -52,7 +52,7 @@ router.get('/images', (req, res) => {
 	Complaint.findById('5c7b0570ea88e277188a8b39').then((complaint) => {
 		let img = complaint.image;
 		res.setHeader('content-type', 'image/jpeg');
-		res.send(img);
+		res.status(200).send(img);
 	});
 });
 

@@ -10,7 +10,7 @@ router.post('/adduser', (req, res) => {
 	})
 		.then((user) => {
 			if (user.length > 0) {
-				return res.send('user already exists');
+				return res.status(200).send('user already exists');
 			}
 
 			User.create({
@@ -21,15 +21,15 @@ router.post('/adduser', (req, res) => {
 				constituency: req.body.constituency
 			})
 				.then((User) => {
-					return res.send('user added');
+					return res.status(200).send('user added');
 				})
 				.catch((err) => {
-					return res.send('error: db create user');
+					return res.status(200).send('error: db create user');
 				});
 		})
 		.catch((err) => {
 			console.log('ERROR: ', err);
-			res.send('error: db access user');
+			res.status(200).send('error: db access user');
 		});
 });
 
@@ -38,10 +38,10 @@ router.get('/users', (req, res) => {
 
 	User.find({})
 		.then((Users) => {
-			return res.send(Users);
+			return res.status(200).send(Users);
 		})
 		.catch((err) => {
-			return res.send('error: db find users');
+			return res.status(200).send('error: db find users');
 		});
 });
 

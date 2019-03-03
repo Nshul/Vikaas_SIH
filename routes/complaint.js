@@ -6,9 +6,6 @@ const express = require('express'),
   router = express.Router({ mergeParams: true }),
   upload = multer({ limits: { fileSize: 2000000 }, dest: '../uploads/' });
 
-let complaintsCache = [];
-let refreshComplaints = false;
-
 router.get('/testdb', (req, res) => {
   User.create({}, (err, user) => {
     if (err) {
@@ -26,23 +23,66 @@ router.get('/testdb', (req, res) => {
 });
 
 router.get('/complaints', (req, res) => {
-  if (refreshComplaints) {
-    res.send(complaintsCache);
-    return;
-  }
-  refreshComplaints = true;
-  setTimeout(function() {
-    fetchedComplaints = false;
-  }, 50000);
   Complaint.find({})
     .populate('comments')
     .exec((err, complaints) => {
       if (err) {
         return res.send(err);
       }
-      complaintsCache = complaints;
-      return res.send(complaints);
+      return res.send(
+        complaints.filter(complaint => {
+          return complaint.constituency === req.body.constituency;
+        })
+      );
     });
+});
+router.get('/complaints-ga', (req, res) => {
+  Complaint.find({ status: 'new' }).then(complaints => {
+    //   console.log(complaints);
+    var problems = [];
+    var upvotes = [];
+    var duration = [];
+    var funds = [];
+    var points = [];
+    for (var i = 0; i < complaints.length; ++i) {
+      problems.push(complaints[i].description);
+      upvotes.push(complaints[i].upvotes - complaints[i].downvotes);
+      duration.push(Math.floor(Math.random() * (30 - 20 + 1)) + 20);
+      funds.push(Math.floor(Math.random() * (400 - 100 + 1)) + 100);
+      var latlon = [complaints[i].latitude, complaints[i].longitude];
+      points.push(latlon);
+    }
+
+    //console.log(complaints);
+    var myPythonScriptPath = './ga.py';
+
+    // Use python shell
+    var { PythonShell } = require('python-shell');
+
+    var options = {
+      pythonPath: './venv/bin/python3',
+      args: [complaints.length, problems, upvotes, duration, fund],
+    };
+
+    PythonShell.run('./ga.py', options, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(data);
+      var output = [];
+      var index = -1;
+      //console.log(data[0].length);
+      for (var i = 0; i < data[0].length; i++) {
+        if (data[0][i] === '0' || data[0][i] === '1') index++;
+        if (data[0][i] === '1') {
+          output.push(complaints[index].description);
+        }
+      }
+      console.log(complaints);
+      console.log(output);
+    });
+  });
+  return res.send('error: db fetch complaints');
 });
 
 router.get('/addcomplaint', (req, res) => {
@@ -71,7 +111,7 @@ router.post('/addcomplaint', (req, res) => {
 
 router.post('/newcomplaint', (req, res) => {
   // console.log('req', req);
-  console.log(req.body.picture);
+  // console.log(req.body.picture);
   // console.log(req.file);
   // console.log(req.body.picture);
 
@@ -113,20 +153,19 @@ router.post('/newcomplaint', (req, res) => {
 });
 
 router.post('/upvote', (req, res) => {
-  console.log('yo');
-  console.log(req.body);
+  // console.log('yo');
+  // console.log(req.body);
 
   Complaint.findById(req.body.complaintid)
     .then(complaint => {
       if (complaint.upvoters.includes(req.body.user)) {
-        console.log('found');
+        // console.log('found');
         let index = complaint.upvoters.indexOf(req.body.user);
 
         complaint.upvoters.splice(index, 1);
         complaint.upvotes -= 1;
         complaint.save();
 
-        console.log(complaint);
         return res.send('removed upvote');
       }
 
@@ -141,7 +180,6 @@ router.post('/upvote', (req, res) => {
       complaint.upvoters.push(req.body.user);
       complaint.save();
 
-      console.log(complaint);
       return res.send('upvoted');
     })
     .catch(err => {
@@ -150,13 +188,13 @@ router.post('/upvote', (req, res) => {
 });
 
 router.post('/downvote', (req, res) => {
-  console.log('yo');
-  console.log(req.body);
+  // console.log('yo');
+  // console.log(req.body);
 
   Complaint.findById(req.body.complaintid)
     .then(complaint => {
       if (complaint.downvoters.includes(req.body.user)) {
-        console.log('found');
+        // console.log('found');
         let index = complaint.downvoters.indexOf(req.body.user);
 
         complaint.downvotes -= 1;

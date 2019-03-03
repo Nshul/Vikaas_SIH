@@ -4,7 +4,7 @@ const express = require('express'),
 	router = express.Router({ mergeParams: true });
 
 router.post('/addmp', (req, res) => {
-	console.log('req', req.body);
+	// console.log('req', req.body);
 
 	Mp.find({
 		phone: req.body.phone
@@ -93,7 +93,7 @@ router.get('/approvedproblems', (req, res) => {
 });
 
 router.get('/mps', (req, res) => {
-	console.log(req.body);
+	// console.log(req.body);
 
 	Mp.find({})
 		.populate('inconsideration')

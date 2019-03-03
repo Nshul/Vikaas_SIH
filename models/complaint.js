@@ -10,6 +10,7 @@ var ComplaintSchema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	constituency: String,
 	image: String,
 	description: String,
 	latitude: Number,

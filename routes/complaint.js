@@ -69,7 +69,8 @@ router.post('/newcomplaint', (req, res) => {
 		description: req.body.description,
 		title: req.body.title,
 		latitude: req.body.latitude,
-		longitude: req.body.longitude
+		longitude: req.body.longitude,
+		constituency: req.body.constituency
 	};
 
 	if (req.body.picture != null) {
